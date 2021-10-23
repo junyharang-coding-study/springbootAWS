@@ -25,8 +25,28 @@ import java.util.Map;
     } // 생성자 끝
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        return ofGoogle(userNameAttributeName, attributes);
+
+        if ("naver".equals(registrationId)) { // 소셜 로그인 서비스가 Naver라면?
+            return ofNaver("id", attributes);
+        } else { // Naver가 아니라면?
+            return ofGoogle(userNameAttributeName, attributes);
+        } // if 문 끝
+
     } // of() 끝
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+
+    } // ofNaver() 끝
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 
