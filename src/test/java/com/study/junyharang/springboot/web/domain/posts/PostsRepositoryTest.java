@@ -37,8 +37,8 @@ public class PostsRepositoryTest {
 
         // then
         Posts posts = postsList.get(0);
-        assertThat(posts.getTitle()).isEqualTo(title);
-        assertThat(posts.getContent()).isEqualTo(content);
+        assertThat(posts.getTitle()).isEqualTo(title).as("값을 확인 해 주세요. 현재 값: %s", posts);
+        assertThat(posts.getContent()).isEqualTo(content).as("값을 확인 해 주세요. 현재 값: %s", posts);
     } // save() 끝
 
     @Test public void BaseTimeEntity_등록() {
